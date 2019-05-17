@@ -17,6 +17,9 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     }
   }
   
+  var performWithDelay: ((Int, Int) -> Void)?
+  var delayedArgs: (first: Int, second: Int)!
+  
   
   // MARK: - Outlets
   @IBOutlet weak var scoreLabel: UILabel!
@@ -27,6 +30,9 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   
   @IBAction func onTapCard(_ sender: UIButton) {
     guard let indexOfPickedCard = cardButtons.firstIndex(of: sender) else { return }
+    if let delayedFunction = performWithDelay {
+      delayedFunction(delayedArgs.first, delayedArgs.second)
+    }
     flipFaceUp(indexOfPickedCard)
     game.pickCard(with: indexOfPickedCard)
   }
@@ -46,11 +52,25 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   }
   
   func registerMatch(firstIndex: Int, secondIndex: Int) {
+    guard performWithDelay != nil else {
+      performWithDelay = registerMatch(firstIndex:secondIndex:)
+      delayedArgs = (firstIndex, secondIndex)
+      return
+    }
+    performWithDelay = nil
+    
     removeCard(firstIndex)
     removeCard(secondIndex)
   }
   
   func registerMismatch(firstIndex: Int, secondIndex: Int) {
+    guard performWithDelay != nil else {
+      performWithDelay = registerMismatch(firstIndex:secondIndex:)
+      delayedArgs = (firstIndex, secondIndex)
+      return
+    }
+    performWithDelay = nil
+    
     flipFaceDown(firstIndex)
     flipFaceDown(secondIndex)
   }
@@ -72,32 +92,18 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   }
   
   private func flipFaceUp(_ index: Int) {
-    let animation = CABasicAnimation(keyPath: #keyPath(CALayer.backgroundColor))
-    animation.duration = 0.2
-    animation.toValue = UIColor.white.cgColor
-    animation.beginTime = CACurrentMediaTime()
-    
-    cardButtons[index].layer.add(animation, forKey: "flipFaceUp")
+
+    cardButtons[index].backgroundColor = .white
     cardButtons[index].setTitle("X", for: .normal)
   }
   
   private func flipFaceDown(_ index: Int) {
-    let animation = CABasicAnimation(keyPath: #keyPath(CALayer.backgroundColor))
-    animation.duration = 0.2
-    animation.toValue = UIColor.orange.cgColor
-    animation.beginTime = CACurrentMediaTime()
 
-    
-    cardButtons[index].layer.add(animation, forKey: "flipFaceDown")
+    cardButtons[index].backgroundColor = .orange
     cardButtons[index].setTitle("", for: .normal)
   }
   
   private func removeCard(_ index: Int) {
-    let animation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
-    animation.duration = 0.1
-    animation.toValue = 0
-    animation.beginTime = CACurrentMediaTime()
-    
-    cardButtons[index].layer.add(animation, forKey: "fadeOut")
+    cardButtons[index].alpha = 0
   }
 }
