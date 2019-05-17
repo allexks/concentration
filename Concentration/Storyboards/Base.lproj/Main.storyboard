@@ -30,6 +30,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="t6p-yF-7aP"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5D-zx-rzq">
                                                 <rect key="frame" x="98" y="0.0" width="80" height="80"/>
@@ -37,6 +40,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kKQ-x1-TmF"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Tg-2w-AyW">
                                                 <rect key="frame" x="196" y="0.0" width="80" height="80"/>
@@ -44,6 +50,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eCY-hM-ohZ"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cpZ-sb-F0t">
                                                 <rect key="frame" x="294" y="0.0" width="80" height="80"/>
@@ -51,6 +60,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aSw-bq-grf"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -66,6 +78,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mYb-a6-zNV"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tTA-49-moh">
                                                 <rect key="frame" x="98" y="0.0" width="80" height="80"/>
@@ -73,6 +88,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xcs-hF-UWn"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gSa-lx-UI7">
                                                 <rect key="frame" x="196" y="0.0" width="80" height="80"/>
@@ -80,6 +98,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OxN-5D-dm2"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o79-ic-2Pl">
                                                 <rect key="frame" x="294" y="0.0" width="80" height="80"/>
@@ -87,6 +108,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mwv-Xv-lxQ"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -102,6 +126,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PHW-yC-MqE"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pWH-vD-oe7">
                                                 <rect key="frame" x="98" y="0.0" width="80" height="80"/>
@@ -109,6 +136,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bmP-rD-qNy"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9e-GJ-XUL">
                                                 <rect key="frame" x="196" y="0.0" width="80" height="80"/>
@@ -116,6 +146,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YNK-nW-8IK"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HAb-JT-kxH">
                                                 <rect key="frame" x="294" y="0.0" width="80" height="80"/>
@@ -123,6 +156,9 @@
                                                 <state key="normal" title="X">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTapCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="s5x-lR-Ej8"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
