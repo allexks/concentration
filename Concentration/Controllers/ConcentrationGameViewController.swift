@@ -30,7 +30,7 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(emojiFontSizeMultiplier))
   }
   
-  let theme = Themes.shared.faces
+  let theme = Themes.shared.japanEasy
   var emojisMapper: [Card.IDType: String] = [:]
   
   var performWithDelay: ((Int, Int) -> Void)?

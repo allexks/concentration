@@ -38,9 +38,8 @@ class ConcentrationGame {
       cards += [newCard, newCard]
     }
     
-    // TODO: Shuffle
-    // ...
-
+    cards = cards.shuffled()
+    
     for i in 0 ..< cards.count {
       involvedInAMismatch[i] = false
     }

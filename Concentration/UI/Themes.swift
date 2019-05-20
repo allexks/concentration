@@ -32,10 +32,11 @@ class Themes {
     
     func getRandomEmojis(emojisCount: Int) -> String {
       guard emojisCount > 0 && emojisCount <= emojiString.count else { return "" }
-      // TODO: - Make it random
-      let indexTo = emojiString.index(emojiString.startIndex, offsetBy: emojisCount)
-      let result = String(emojiString[..<indexTo])
-      return result
+      
+      let all = emojiString.map { String($0) }.shuffled()
+      let result = all[..<emojisCount]
+      
+      return result.joined()
     }
   }
   
