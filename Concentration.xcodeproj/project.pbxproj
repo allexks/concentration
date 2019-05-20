@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A2566832292C27B006E4E02 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2566822292C27B006E4E02 /* Themes.swift */; };
 		1A65BCDE228D7B58004E969B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A65BCDD228D7B58004E969B /* AppDelegate.swift */; };
 		1A65BCE3228D7B58004E969B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A65BCE1228D7B58004E969B /* Main.storyboard */; };
 		1A65BCE5228D7B59004E969B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A65BCE4228D7B59004E969B /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A2566822292C27B006E4E02 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		1A65BCDA228D7B58004E969B /* Concentration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Concentration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A65BCDD228D7B58004E969B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A65BCE2228D7B58004E969B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -62,6 +64,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A2566842292C27F006E4E02 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1A2566822292C27B006E4E02 /* Themes.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		1A65BCD1228D7B58004E969B = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				1A65BCFF228D8CCA004E969B /* ConcentrationGameViewController.swift */,
+				1A2566842292C27F006E4E02 /* Helpers */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -231,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A65BD06228D9A04004E969B /* ConcentrationGame.swift in Sources */,
+				1A2566832292C27B006E4E02 /* Themes.swift in Sources */,
 				1A65BD00228D8CCA004E969B /* ConcentrationGameViewController.swift in Sources */,
 				1A91150A228EE36000CB5071 /* ConcentrationGameDelegate.swift in Sources */,
 				1A65BCDE228D7B58004E969B /* AppDelegate.swift in Sources */,

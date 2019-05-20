@@ -17,6 +17,22 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     }
   }
   
+  var numberOfPairs: Int {
+    var pairs = cardButtons.count / 2
+    if cardButtons.count % 2 == 1 {
+      pairs = pairs + 1
+    }
+    return pairs
+  }
+  
+  let emojiFontSizeMultiplier = CGFloat(50.0)
+  var font : UIFont {
+    return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(emojiFontSizeMultiplier))
+  }
+  
+  let theme = Themes.shared.faces
+  var emojisMapper: [Card.IDType: String] = [:]
+  
   var performWithDelay: ((Int, Int) -> Void)?
   var delayedArgs: (first: Int, second: Int)!
   
@@ -27,7 +43,6 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   
   
   // MARK: - Actions
-  
   @IBAction func onTapCard(_ sender: UIButton) {
     guard let indexOfPickedCard = cardButtons.firstIndex(of: sender) else { return }
     if let delayedFunction = performWithDelay {
@@ -41,8 +56,20 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   // MARK: - Overrides
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     loadNewGame()
     
+    let emojis = theme.getRandomEmojis(emojisCount: numberOfPairs).map { String($0) }
+    var nextIndex = 0
+    for card in game.cards {
+      if emojisMapper[card.id] == nil {
+        emojisMapper[card.id] = emojis[nextIndex]
+        nextIndex = nextIndex + 1
+      }
+    }
+    
+    view.backgroundColor = theme.appBackgroundColor
+    scoreLabel.textColor = theme.scoreLabelTextColor
   }
   
   
@@ -78,12 +105,7 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   
   // MARK: - Private methods
   private func loadNewGame() {
-    var pairs = cardButtons.count / 2
-    if cardButtons.count % 2 == 1 {
-      pairs = pairs + 1
-    }
-    
-    game = ConcentrationGame(pairsCount: pairs)
+    game = ConcentrationGame(pairsCount: numberOfPairs)
     
     for i in 0..<cardButtons.count {
       flipFaceDown(i)
@@ -93,14 +115,15 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   
   private func flipFaceUp(_ index: Int) {
 
-    cardButtons[index].backgroundColor = .white
-    cardButtons[index].setTitle("X", for: .normal)
+    cardButtons[index].backgroundColor = theme.cardForegroundColor
+    let attrString = NSAttributedString(string: emojisMapper[game.cards[index].id]!, attributes: [.font : font] )
+    cardButtons[index].setAttributedTitle(attrString, for: .normal)
   }
   
   private func flipFaceDown(_ index: Int) {
 
-    cardButtons[index].backgroundColor = .orange
-    cardButtons[index].setTitle("", for: .normal)
+    cardButtons[index].backgroundColor = theme.cardBackgroundColor
+    cardButtons[index].setAttributedTitle(NSAttributedString(string: "", attributes: nil), for: .normal)
   }
   
   private func removeCard(_ index: Int) {
