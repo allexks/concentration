@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xfb-PO-1F2">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,16 +10,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Concentration Game View Controller-->
+        <!--Concentration Game-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ConcentrationGameViewController" customModule="Concentration" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Concentration Game" id="BYZ-38-t0r" customClass="ConcentrationGameViewController" customModule="Concentration" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="qj0-N3-MTn">
-                                <rect key="frame" x="20" y="64" width="374" height="296"/>
+                                <rect key="frame" x="20" y="20" width="374" height="296"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="qoR-dS-IqW">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="80"/>
@@ -168,7 +168,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3Z-el-R1l">
-                                <rect key="frame" x="122" y="804.5" width="170.5" height="57.5"/>
+                                <rect key="frame" x="122" y="716" width="170.5" height="57.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="48"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -176,15 +176,28 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="H3Z-el-R1l" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HbK-2m-KZx"/>
-                            <constraint firstItem="H3Z-el-R1l" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="QiL-Wm-uTx"/>
+                            <constraint firstItem="H3Z-el-R1l" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="B0A-Dp-7JB"/>
                             <constraint firstItem="qj0-N3-MTn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="gN0-OY-JwK"/>
-                            <constraint firstItem="qj0-N3-MTn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="suW-sG-qyK"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="H3Z-el-R1l" secondAttribute="bottom" constant="0.5" id="qls-YY-cqD"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qj0-N3-MTn" secondAttribute="trailing" constant="20" id="vlF-o6-Ns6"/>
+                            <constraint firstItem="qj0-N3-MTn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="xXF-Oh-ssY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Concentration" id="PdF-x9-bca">
+                        <barButtonItem key="leftBarButtonItem" title="New Game" id="ROC-H4-om3">
+                            <connections>
+                                <action selector="onTapNewGameButton:" destination="BYZ-38-t0r" id="4Ge-Qt-Yon"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="New Theme" id="sjA-ix-6Jr">
+                            <connections>
+                                <action selector="onTapNewThemeButton:" destination="BYZ-38-t0r" id="hQl-mE-J8j"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="navItem" destination="PdF-x9-bca" id="2do-XX-SW9"/>
                         <outlet property="scoreLabel" destination="H3Z-el-R1l" id="cdA-1w-fxt"/>
                         <outletCollection property="cardButtons" destination="ZRo-Ik-2OS" collectionClass="NSMutableArray" id="i39-kw-cpc"/>
                         <outletCollection property="cardButtons" destination="E5D-zx-rzq" collectionClass="NSMutableArray" id="Z8s-Qx-Lhi"/>
@@ -202,7 +215,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
+            <point key="canvasLocation" x="1069.5999999999999" y="138.0809595202399"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kK9-OE-izy">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xfb-PO-1F2" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="mCb-RL-3MK">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="9iZ-Lf-aQI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jvm-fr-02x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="130.40000000000001" y="138.0809595202399"/>
         </scene>
     </scenes>
 </document>

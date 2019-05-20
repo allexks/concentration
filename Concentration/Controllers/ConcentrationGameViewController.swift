@@ -40,6 +40,7 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   // MARK: - Outlets
   @IBOutlet weak var scoreLabel: UILabel!
   @IBOutlet var cardButtons: [UIButton]!
+  @IBOutlet weak var navItem: UINavigationItem!
   
   
   // MARK: - Actions
@@ -50,6 +51,14 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     }
     flipFaceUp(indexOfPickedCard)
     game.pickCard(with: indexOfPickedCard)
+  }
+  
+  @IBAction func onTapNewGameButton(_ sender: UIBarButtonItem) {
+    loadNewGame()
+  }
+  @IBAction func onTapNewThemeButton(_ sender: Any) {
+    loadNewTheme(nil)
+    reloadViews()
   }
   
   
@@ -91,13 +100,12 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   
   
   // MARK: - Private methods
-  private func loadNewGame(newTheme: Bool = false, themeName: String?) {
+  private func loadNewGame(newTheme: Bool = false, themeName: String? = nil) {
     game = ConcentrationGame(pairsCount: numberOfPairs)
     
     if newTheme {
       loadNewTheme(themeName)
     }
-    
     reloadViews()
   }
   
@@ -108,6 +116,12 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     } else {
       theme = Themes.shared.selectRandomTheme()
     }
+    
+    
+  }
+  
+  private func reloadViews() {
+    emojisMapper = [:]
     
     let emojis = theme.getRandomEmojis(emojisCount: numberOfPairs).map { String($0) }
     var nextIndex = 0
@@ -120,9 +134,8 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     
     view.backgroundColor = theme.appBackgroundColor
     scoreLabel.textColor = theme.scoreLabelTextColor
-  }
-  
-  private func reloadViews() {
+    navItem.title = theme.title
+    
     for i in 0..<cardButtons.count {
       switch game.cards[i].status {
       case .faceDown:
