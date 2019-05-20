@@ -30,7 +30,7 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(emojiFontSizeMultiplier))
   }
   
-  let theme = Themes.shared.japanEasy
+  var theme = Themes.shared.themes["faces"]!
   var emojisMapper: [Card.IDType: String] = [:]
   
   var performWithDelay: ((Int, Int) -> Void)?
@@ -56,20 +56,7 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   // MARK: - Overrides
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    loadNewGame()
-    
-    let emojis = theme.getRandomEmojis(emojisCount: numberOfPairs).map { String($0) }
-    var nextIndex = 0
-    for card in game.cards {
-      if emojisMapper[card.id] == nil {
-        emojisMapper[card.id] = emojis[nextIndex]
-        nextIndex = nextIndex + 1
-      }
-    }
-    
-    view.backgroundColor = theme.appBackgroundColor
-    scoreLabel.textColor = theme.scoreLabelTextColor
+    loadNewGame(newTheme: true, themeName: nil)
   }
   
   
@@ -104,12 +91,48 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   
   
   // MARK: - Private methods
-  private func loadNewGame() {
+  private func loadNewGame(newTheme: Bool = false, themeName: String?) {
     game = ConcentrationGame(pairsCount: numberOfPairs)
     
+    if newTheme {
+      loadNewTheme(themeName)
+    }
+    
+    reloadViews()
+  }
+  
+  private func loadNewTheme(_ name: String?) {
+    /// name is nil for a random theme
+    if let name = name, let newTheme = Themes.shared.themes[name] {
+      theme = newTheme
+    } else {
+      theme = Themes.shared.selectRandomTheme()
+    }
+    
+    let emojis = theme.getRandomEmojis(emojisCount: numberOfPairs).map { String($0) }
+    var nextIndex = 0
+    for card in game.cards {
+      if emojisMapper[card.id] == nil {
+        emojisMapper[card.id] = emojis[nextIndex]
+        nextIndex = nextIndex + 1
+      }
+    }
+    
+    view.backgroundColor = theme.appBackgroundColor
+    scoreLabel.textColor = theme.scoreLabelTextColor
+  }
+  
+  private func reloadViews() {
     for i in 0..<cardButtons.count {
-      flipFaceDown(i)
-      cardButtons[i].alpha = 1
+      switch game.cards[i].status {
+      case .faceDown:
+        flipFaceDown(i)
+      case .faceUp:
+        flipFaceUp(i)
+      case .matched:
+        removeCard(i)
+      }
+      
     }
   }
   
@@ -118,12 +141,14 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     cardButtons[index].backgroundColor = theme.cardForegroundColor
     let attrString = NSAttributedString(string: emojisMapper[game.cards[index].id]!, attributes: [.font : font] )
     cardButtons[index].setAttributedTitle(attrString, for: .normal)
+    cardButtons[index].alpha = 1
   }
   
   private func flipFaceDown(_ index: Int) {
 
     cardButtons[index].backgroundColor = theme.cardBackgroundColor
     cardButtons[index].setAttributedTitle(NSAttributedString(string: "", attributes: nil), for: .normal)
+    cardButtons[index].alpha = 1
   }
   
   private func removeCard(_ index: Int) {
