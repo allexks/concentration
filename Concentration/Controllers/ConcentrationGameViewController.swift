@@ -33,8 +33,7 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   var theme = Themes.shared.themes["faces"]!
   var emojisMapper: [Card.IDType: String] = [:]
   
-  var performWithDelay: ((Int, Int) -> Void)?
-  var delayedArgs: (first: Int, second: Int)!
+  let delayInSeconds: TimeInterval = 0.5
   
   
   // MARK: - Outlets
@@ -46,9 +45,6 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   // MARK: - Actions
   @IBAction func onTapCard(_ sender: UIButton) {
     guard let indexOfPickedCard = cardButtons.firstIndex(of: sender) else { return }
-    if let delayedFunction = performWithDelay {
-      delayedFunction(delayedArgs.first, delayedArgs.second)
-    }
     flipFaceUp(indexOfPickedCard)
     game.pickCard(with: indexOfPickedCard)
   }
@@ -75,31 +71,24 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   }
   
   func registerMatch(firstIndex: Int, secondIndex: Int) {
-    guard performWithDelay != nil else {
-      performWithDelay = registerMatch(firstIndex:secondIndex:)
-      delayedArgs = (firstIndex, secondIndex)
-      return
-    }
-    performWithDelay = nil
-    
-    removeCard(firstIndex)
-    removeCard(secondIndex)
+    perform(#selector(onMatch(_:)), with: [firstIndex, secondIndex], afterDelay: delayInSeconds)
   }
   
   func registerMismatch(firstIndex: Int, secondIndex: Int) {
-    guard performWithDelay != nil else {
-      performWithDelay = registerMismatch(firstIndex:secondIndex:)
-      delayedArgs = (firstIndex, secondIndex)
-      return
-    }
-    performWithDelay = nil
-    
-    flipFaceDown(firstIndex)
-    flipFaceDown(secondIndex)
+    perform(#selector(onMismatch(_:)), with: [firstIndex, secondIndex], afterDelay: delayInSeconds)
   }
   
+  // MARK: - Helper methods
+  @objc func onMatch(_ indices: [Int]) {
+    removeCard(indices[0])
+    removeCard(indices[1])
+  }
   
-  // MARK: - Private methods
+  @objc func onMismatch(_ indices: [Int]) {
+    flipFaceDown(indices[0])
+    flipFaceDown(indices[1])
+  }
+  
   private func loadNewGame(newTheme: Bool = false, themeName: String? = nil) {
     game = ConcentrationGame(pairsCount: numberOfPairs)
     
