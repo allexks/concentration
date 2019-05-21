@@ -16,6 +16,18 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   @IBOutlet weak var navItem: UINavigationItem!
   
   // MARK: - Properties
+  let cardFlipDelayInSeconds: TimeInterval = 0.5
+  let cardFlipDurationInSeconds: TimeInterval = 0.3
+  
+  let emojiFontSizeMultiplier = CGFloat(50.0)
+  var font : UIFont {
+    return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(emojiFontSizeMultiplier))
+  }
+  
+  lazy var themes = Themes.shared
+  var theme: Themes.Theme!
+  var emojisMapper: [Card.IDType: String] = [:]
+
   var game: ConcentrationGame! {
     didSet {
       game.delegate = self
@@ -30,26 +42,15 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     return pairs
   }
   
-  let emojiFontSizeMultiplier = CGFloat(50.0)
-  var font : UIFont {
-    return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(emojiFontSizeMultiplier))
-  }
-  
-  var theme = Themes.shared.themes["faces"]!
-  var emojisMapper: [Card.IDType: String] = [:]
-  
-  let cardFlipDelayInSeconds: TimeInterval = 0.5
-  let cardFlipDurationInSeconds: TimeInterval = 0.3
-  
   // MARK: - ViewController Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    loadNewGame(newTheme: true, themeName: nil)
+    loadNewGame(hasNewTheme: true, withTheme: nil)
   }
   
   // MARK: - Actions
   @IBAction func onTapCard(_ sender: UIButton) {
-    guard let indexOfPickedCard = cardButtons.firstIndex(of: sender), game.cards[indexOfPickedCard].status == .faceDown else { return }
+    guard let indexOfPickedCard = cardButtons.firstIndex(of: sender), game.canPickCard(with: indexOfPickedCard) else { return }
     flipFaceUp(indexOfPickedCard)
     game.pickCard(with: indexOfPickedCard)
   }
@@ -82,21 +83,17 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   }
   
   // MARK: - Helper methods
-  private func loadNewGame(newTheme: Bool = false, themeName: String? = nil) {
+  private func loadNewGame(hasNewTheme: Bool = false, withTheme: Themes.Theme? = nil) {
     game = ConcentrationGame(pairsCount: numberOfPairs)
-    if newTheme {
-      loadNewTheme(themeName)
+    if hasNewTheme {
+      loadNewTheme(withTheme)
     }
     reloadViews()
   }
   
-  private func loadNewTheme(_ name: String?) {
+  private func loadNewTheme(_ newTheme: Themes.Theme?) {
     /// name is nil for a random theme
-    if let name = name, let newTheme = Themes.shared.themes[name] {
-      theme = newTheme
-    } else {
-      theme = Themes.shared.selectRandomTheme()
-    }
+    theme = newTheme ?? themes.selectRandomTheme()
   }
   
   private func reloadViews() {
@@ -116,15 +113,11 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     navItem.title = theme.title
     updateScore(newScore: game.score)
     
-    
     for i in 0..<cardButtons.count {
       switch game.cards[i].status {
-      case .faceDown:
-        flipFaceDown(i)
-      case .faceUp:
-        flipFaceUp(i)
-      case .matched:
-        removeCard(i)
+      case .faceDown: flipFaceDown(i)
+      case .faceUp: flipFaceUp(i)
+      case .matched: removeCard(i)
       }
     }
   }

@@ -8,26 +8,26 @@
 
 import Foundation
 
-struct Card: Equatable, Hashable {
+struct Card {
   typealias IDType = UInt64
-
-  enum Status {
-    case faceDown
-    case faceUp
-    case matched
-  }
-  
   private static var lastId: IDType = 0
   private static func generateNextId() -> IDType {
     lastId = lastId + 1
     return lastId
   }
   
-  
   let id: IDType!
   var status: Status = .faceDown
   
   init() {
     id = Card.generateNextId()
+  }
+}
+
+extension Card {
+  enum Status {
+    case faceDown
+    case faceUp
+    case matched
   }
 }

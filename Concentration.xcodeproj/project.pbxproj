@@ -64,12 +64,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1A2566892292E791006E4E02 /* UI */ = {
+		1A2566892292E791006E4E02 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				1A2566822292C27B006E4E02 /* Themes.swift */,
 			);
-			path = UI;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		1A65BCD1228D7B58004E969B = {
@@ -96,7 +96,7 @@
 				1A65BCDD228D7B58004E969B /* AppDelegate.swift */,
 				1A65BD04228D99DC004E969B /* Models */,
 				1A65BCFE228D7FA9004E969B /* Controllers */,
-				1A2566892292E791006E4E02 /* UI */,
+				1A2566892292E791006E4E02 /* Utilities */,
 				1A65BCFD228D7F75004E969B /* Storyboards */,
 				1A65BCE4228D7B59004E969B /* Assets.xcassets */,
 				1A65BCE9228D7B59004E969B /* Info.plist */,
