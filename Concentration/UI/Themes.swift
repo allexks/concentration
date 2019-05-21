@@ -8,9 +8,6 @@
 
 import UIKit
 
-
-
-
 class Themes {
   private init() {}
   static let shared = Themes()

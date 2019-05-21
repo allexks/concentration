@@ -9,7 +9,12 @@
 import UIKit
 
 class ConcentrationGameViewController: UIViewController, ConcentrationGameDelegate {
-
+  
+  // MARK: - Outlets
+  @IBOutlet weak var scoreLabel: UILabel!
+  @IBOutlet var cardButtons: [UIButton]!
+  @IBOutlet weak var navItem: UINavigationItem!
+  
   // MARK: - Properties
   var game: ConcentrationGame! {
     didSet {
@@ -33,18 +38,18 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
   var theme = Themes.shared.themes["faces"]!
   var emojisMapper: [Card.IDType: String] = [:]
   
-  let delayInSeconds: TimeInterval = 0.5
+  let cardFlipDelayInSeconds: TimeInterval = 0.5
+  let cardFlipDurationInSeconds: TimeInterval = 0.3
   
-  
-  // MARK: - Outlets
-  @IBOutlet weak var scoreLabel: UILabel!
-  @IBOutlet var cardButtons: [UIButton]!
-  @IBOutlet weak var navItem: UINavigationItem!
-  
+  // MARK: - ViewController Lifecycle
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    loadNewGame(newTheme: true, themeName: nil)
+  }
   
   // MARK: - Actions
   @IBAction func onTapCard(_ sender: UIButton) {
-    guard let indexOfPickedCard = cardButtons.firstIndex(of: sender) else { return }
+    guard let indexOfPickedCard = cardButtons.firstIndex(of: sender), game.cards[indexOfPickedCard].status == .faceDown else { return }
     flipFaceUp(indexOfPickedCard)
     game.pickCard(with: indexOfPickedCard)
   }
@@ -57,41 +62,28 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     reloadViews()
   }
   
-  
-  // MARK: - Overrides
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    loadNewGame(newTheme: true, themeName: nil)
-  }
-  
-  
   // MARK: - Concentration Game Delegate
   func updateScore(newScore: Int) {
     scoreLabel.text = "Score: \(newScore)"
   }
   
   func registerMatch(firstIndex: Int, secondIndex: Int) {
-    perform(#selector(onMatch(_:)), with: [firstIndex, secondIndex], afterDelay: delayInSeconds)
+    removeCard(firstIndex)
+    removeCard(secondIndex)
   }
   
   func registerMismatch(firstIndex: Int, secondIndex: Int) {
-    perform(#selector(onMismatch(_:)), with: [firstIndex, secondIndex], afterDelay: delayInSeconds)
+    DispatchQueue.main.asyncAfter(deadline: .now() + cardFlipDelayInSeconds) {
+      [weak self] in
+      guard let self = self else { return }
+      self.flipFaceDown(firstIndex)
+      self.flipFaceDown(secondIndex)
+    }
   }
   
   // MARK: - Helper methods
-  @objc func onMatch(_ indices: [Int]) {
-    removeCard(indices[0])
-    removeCard(indices[1])
-  }
-  
-  @objc func onMismatch(_ indices: [Int]) {
-    flipFaceDown(indices[0])
-    flipFaceDown(indices[1])
-  }
-  
   private func loadNewGame(newTheme: Bool = false, themeName: String? = nil) {
     game = ConcentrationGame(pairsCount: numberOfPairs)
-    
     if newTheme {
       loadNewTheme(themeName)
     }
@@ -105,8 +97,6 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     } else {
       theme = Themes.shared.selectRandomTheme()
     }
-    
-    
   }
   
   private func reloadViews() {
@@ -124,6 +114,8 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
     view.backgroundColor = theme.appBackgroundColor
     scoreLabel.textColor = theme.scoreLabelTextColor
     navItem.title = theme.title
+    updateScore(newScore: game.score)
+    
     
     for i in 0..<cardButtons.count {
       switch game.cards[i].status {
@@ -134,26 +126,42 @@ class ConcentrationGameViewController: UIViewController, ConcentrationGameDelega
       case .matched:
         removeCard(i)
       }
-      
     }
   }
   
   private func flipFaceUp(_ index: Int) {
-
-    cardButtons[index].backgroundColor = theme.cardForegroundColor
-    let attrString = NSAttributedString(string: emojisMapper[game.cards[index].id]!, attributes: [.font : font] )
-    cardButtons[index].setAttributedTitle(attrString, for: .normal)
-    cardButtons[index].alpha = 1
+    UIView.transition(with: cardButtons[index],
+                   duration: cardFlipDurationInSeconds,
+                   options: .transitionFlipFromLeft,
+                   animations: { [weak self] in
+                    guard let self = self else { return }
+                    self.cardButtons[index].backgroundColor = self.theme.cardForegroundColor
+                    self.cardButtons[index].alpha = 1
+                    let attrString = NSAttributedString(string: self.emojisMapper[self.game.cards[index].id]!, attributes: [.font : self.font])
+                    self.cardButtons[index].setAttributedTitle(attrString, for: .normal)
+                   },
+                   completion: nil)
   }
   
   private func flipFaceDown(_ index: Int) {
-
-    cardButtons[index].backgroundColor = theme.cardBackgroundColor
-    cardButtons[index].setAttributedTitle(NSAttributedString(string: "", attributes: nil), for: .normal)
-    cardButtons[index].alpha = 1
+    UIView.transition(with: cardButtons[index],
+                      duration: cardFlipDurationInSeconds,
+                      options: .transitionFlipFromRight,
+                      animations: { [weak self] in guard let self = self else { return }
+                        self.cardButtons[index].backgroundColor = self.theme.cardBackgroundColor
+                        self.cardButtons[index].setAttributedTitle(NSAttributedString(string: ""), for: .normal)
+                        self.cardButtons[index].alpha = 1
+                      },
+                      completion: nil)
   }
   
   private func removeCard(_ index: Int) {
-    cardButtons[index].alpha = 0
+    UIView.animate(withDuration: cardFlipDurationInSeconds,
+                   delay: cardFlipDelayInSeconds,
+                   options: [],
+                   animations: { [weak self] in guard let self = self else { return }
+                    self.cardButtons[index].alpha = 0
+                   },
+                   completion: nil)
   }
 }
